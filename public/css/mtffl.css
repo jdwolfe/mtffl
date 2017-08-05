@@ -1,0 +1,185 @@
+table th, td {
+	text-align: center;
+	padding: 3px;
+}
+
+.matchupResult {
+	border-bottom: 1px solid black;
+}
+
+.awayTeam, .homeTeam {
+	text-align: center;
+}
+.matchAt {
+	text-align: center;
+	font-size: 3em;
+}
+
+.teamName {
+	font-size: 1.5em;
+}
+.teamScore {
+	font-size: 2em;
+}
+
+.winner-box {
+	background-color: #D6D6D6;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-webkit-box-shadow: #B3B3B3 2px 2px 2px;-moz-box-shadow: #B3B3B3 2px 2px 2px; box-shadow: #B3B3B3 2px 2px 2px;
+}
+
+.gamewinner {
+	color: #00B800;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.divisionwinner {
+	color: #00B800;
+	font-weight: bold;
+	font-size: 135%;
+}
+.wildcardwinner {
+	color: #D65306;
+	font-weight: bold;
+	font-size: 135%;
+}
+.leaguefirst {
+	color: #2535C7;
+	font-weight: bold;
+	font-size: 135%;
+}
+.leaguesecond {
+	font-weight: bold;
+	font-size: 135%;
+	color: #D31D26;
+}
+.leaguethird {
+	font-weight: bold;
+	font-size: 135%;
+	color: #DBB804;
+}
+.leaguefourth {
+	font-weight: bold;
+	color: #000000;
+	font-size: 135%;
+}
+
+.news-story {
+	font-family: Arial, Helvetica, sans-serif;
+	margin-bottom: 5px;
+}
+.news-title {
+	font-weight: bold;
+}
+.news-desc {
+
+}
+.news-date {
+	font-style: italic;
+	font-size: 80%;
+}
+.news-update {
+	font-size: 80%;
+	text-align: center;
+	font-family: monospace;
+}
+
+table.division-winners {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+
+table.division-winners td {
+}
+table.division-winners-set td.season {
+	width: 8%;
+}
+table.division-winners-set td.team {
+	width: 23%;
+}
+
+
+/* History Grid */
+.history-grid {
+    border-collapse: collapse;
+}
+.history-grid td {
+    padding: 2px 5px;
+    text-align: center;
+    margin: 0px;
+}
+
+.history-grid .leaguetitle {
+	font-size: 2rem;
+	text-align:center;
+	color:black;
+}
+.history-grid .division {
+	font-size:1.5rem;
+	background: #66CCCC;
+	text-align:center;
+	color:black;
+	border-radius: 20px;
+}
+.history-grid .owner {
+	font-size: 0.8rem;
+	border-top: 0px none;
+	border-bottom: 2px solid black;
+	border-left: 0px none;
+	border-right: 0px none;
+	background: white;
+	text-align:center;
+	color:black;
+	vertical-align:middle;
+}
+.history-grid .team {
+	font-size:0.8rem;
+	border-top: 0px none;
+	border-bottom: 2px solid black;
+	border-left: 0px none;
+	border-right: 0px none;
+	background: white;
+	text-align:center;
+	color:black;
+	vertical-align:middle;
+}
+.history-grid .active {
+	border-top: 0px none;
+	border-bottom: 2px solid black;
+	border-left: 1px solid gray;
+	border-right: 0px none;
+	text-align:center;
+	color:black;
+	vertical-align:middle;
+}
+.history-grid .inactive {
+	border: 0px none;
+	background: black;
+	text-align:center;
+	color:black;
+}
+
+.history-grid .franchiseseparator {
+	border-top: 2px solid red;
+	font-size:1px;
+}
+
+/* end history grid */
+
+/* rules */
+.rule-change-strike {
+	text-decoration-line: line-through;
+}
+
+.flash-message {
+	border: 1px solid red;
+	background-color: #FF9F94;
+	margin: 2px;
+	padding: 2px;
+}
+
+/* end rules */
