@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'local'),
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://local.mtffl.com'),
+    'url' => env('APP_URL', 'http://mtffl.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -227,7 +227,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		'Debugbar' => Barryvdh\Debugbar\Facade::class,
+	'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 
