@@ -113,8 +113,18 @@
 					<div class="col-md-3">
 						<h5>FootballGuys News</h5>
 						<div>
-
+						@foreach( $news->stories as $n )
+						<div class='news-story'>
+							<a href="{{ $n->link }}" class='NewsLink' target='_news'>{{ $n->title }}</a>
+							&nbsp;&nbsp;<span class='news-desc'>{{ $n->story }}</span>
+							&nbsp;<span class='news-date'>{{ date('m/d H:i', $n->date ) }}</span>
 						</div>
+						@endforeach
+						<div class='news-update'>
+						Updated {{ date('Y-m-d H:i:s', $news->update_time) }}
+						</div>
+					</div>
+
 					</div>
 				</div>
 			</div>

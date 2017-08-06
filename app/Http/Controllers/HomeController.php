@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Http\Controllers\NewsController;
 
 class HomeController extends Controller	{
 	private $mflUrl = '';
@@ -20,6 +21,8 @@ class HomeController extends Controller	{
 
 	private function returnView( $template = '', $data = NULL ) {
 		$data['mflUrl'] = $this->mflUrl;
+		$News = new NewsController();
+		$data['news'] = $News->getNews();
 		return view( $template, $data );
 	}
     /**
