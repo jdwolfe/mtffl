@@ -69,7 +69,7 @@ class HomeController extends Controller	{
 		$query = DB::table('team_season_results');
 		$query->join('team_details','team_season_results.team_id','=','team_details.team_id');
 		$query->select('team_details.team_id','team_details.team_longname','team_season_results.season','team_season_results.league_finish');
-		$query->where('league_finish','<=','3')->orderBy('season','asc')->orderBy('league_finish');
+		$query->where('team_season_results.league','mtffl')->where('league_finish','<=','3')->orderBy('season','asc')->orderBy('league_finish');
 		$results = $query->get();
 
 		$seasons = array();
@@ -98,7 +98,9 @@ class HomeController extends Controller	{
 		$query = DB::table('team_season_results');
 		$query->join('team_details','team_season_results.team_id','=','team_details.team_id');
 		$query->select('team_details.team_id','team_details.team_longname','team_season_results.season','team_season_results.division_finish','team_details.division','team_season_results.wildcard');
-		$query->where('division_finish','=','1')->orwhere('wildcard','y')->orderBy('season','asc');
+		$query->where('team_season_results.league','mtffl');
+		$query->where( function( $q ) { $q->where('division_finish','=','1')->orwhere('wildcard','y'); } );
+		$query->orderBy('season','asc');
 		$results = $query->get();
 
 		$seasons = array();
