@@ -91,6 +91,12 @@
 	</tr>
 
 	<tr>
+		<td><b><i>Receptions:</i></b></td>
+
+		<td><b><i>Every 1 Reception = 0.5 Pts</i></b></td>
+	</tr>
+
+	<tr>
 		<td><b><i>Receiving Yardage:</i></b></td>
 
 		<td><b><i>Every 1 Yds = 0.1 Pts</i></b></td>
@@ -147,7 +153,10 @@
 	<tr>
 		<td><b><i>Number of Field Goals Made:</i></b></td>
 
-		<td><b><i>Every 1 Qty = 3.0 Pts</i></b></td>
+		<td><b><i>0 - 39 yards = 3.0 Pts</i></b></td>
+		<td><b><i>40 - 49 yards = 4.0 Pts</i></b></td>
+		<td><b><i>50 - 59 yards = 5.0 Pts</i></b></td>
+		<td><b><i>60+ yards = 6.0 Pts</i></b></td>
 	</tr>
 
 	<tr>

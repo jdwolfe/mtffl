@@ -9,6 +9,7 @@
 		if ( form.passyds.value >= 300 ) { passyds=passyds+3 }
 		var rushyds=form.rushyds.value/10
 		if ( form.rushyds.value >= 100 ) { rushyds=rushyds+3 }
+		var receptions=form.receptions.value/2
 		var recyds=form.recyds.value/10
 		if ( form.recyds.value >= 100 ) { recyds=recyds+3 }
 		var tds=form.tds.value*6
@@ -19,9 +20,9 @@
 		var ast_tackles=form.ast_tackles.value*1
 		var sacks=form.sacks.value*4
 		var safety=form.safety.value*2
-		var fg=form.fg.value*3
+		var fg=form.fg30.value*3 + form.fg40.value*4 + form.fg50.value*5 + form.fg60.value*6
 		var xp=form.xp.value*1
-		var total=passyds+rushyds+recyds+tds+two_pts+to_minus+to_plus+tackles+ast_tackles+sacks+safety+fg+xp
+		var total=passyds+rushyds+receptions+recyds+tds+two_pts+to_minus+to_plus+tackles+ast_tackles+sacks+safety+fg+xp
 		form.total.value=formatPoints(total)
 	}
 	function formatPoints (expr) {
@@ -44,6 +45,12 @@
 			<td>Rushing yards</td>
 
 			<td><input name="rushyds" type="text" onkeyup="calcPoints(this.form)" value="0" size="3" maxlength="3"></td>
+		</tr>
+
+		<tr>
+			<td>Receptions</td>
+
+			<td><input name="receptions" type="text" onkeyup="calcPoints(this.form)" value="0" size="3" maxlength="3"></td>
 		</tr>
 
 		<tr>
@@ -103,9 +110,24 @@
 		</tr>
 
 		<tr>
-			<td> Field Goals Made</td>
+			<td> Field Goals Made 0 - 39 yards</td>
 
-			<td><input name="fg" type="text" onkeyup="calcPoints(this.form)" value="0" size="3" maxlength="3"></td>
+			<td><input name="fg30" type="text" onkeyup="calcPoints(this.form)" value="0" size="3" maxlength="3"></td>
+		</tr>
+		<tr>
+			<td> Field Goals Made 40 - 49 yards</td>
+
+			<td><input name="fg40" type="text" onkeyup="calcPoints(this.form)" value="0" size="3" maxlength="3"></td>
+		</tr>
+		<tr>
+			<td> Field Goals Made 50 - 59 yards</td>
+
+			<td><input name="fg50" type="text" onkeyup="calcPoints(this.form)" value="0" size="3" maxlength="3"></td>
+		</tr>
+		<tr>
+			<td> Field Goals Made 60+ yards</td>
+
+			<td><input name="fg60" type="text" onkeyup="calcPoints(this.form)" value="0" size="3" maxlength="3"></td>
 		</tr>
 
 		<tr>

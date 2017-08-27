@@ -26,12 +26,34 @@ Players get an extra 3 points for rushing or receiving for more than 100 yards i
 
 <p><strong><a name="amendment10" id="amendment10"></a></strong><b><u>Amendment 10.</u></b> <strong>2006</strong>: Ammendment 4 is overturned and draft position is determined by regular season results.</p>
 
-<p><strong><a name="amendment11" id="amendment11"></a></strong><b><u>Amendment 11.</u></b> <strong>2015</strong>: Home Field Advantage (HFA) is abolished.</p>
+<p><strong><a name="amendment11" id="amendment11"></a></strong><b><u>Amendment 11.</u></b> <strong>2013</strong>: Roster size reduced by 1 to 24.</p>
+
+<p><strong><a name="amendment12" id="amendment12"></a></strong><b><u>Amendment 12.</u></b> <strong>2015</strong>: Home Field Advantage (HFA) is abolished.</p>
+
+<p><strong><a name="amendment13" id="amendment13"></a></strong><b><u>Amendment 13.</u></b> <strong>2017</strong>: Scoring Rule Change: Receptions are worth 0.5 points</p>
+
+<p><strong><a name="amendment14" id="amendment14"></a></strong><b><u>Amendment 14.</u></b> <strong>2017</strong>: For the Starting Lineup, Players are locked at the start of their game instead of Noon on Sunday</p>
+
+<p><strong><a name="amendment15" id="amendment15"></a></strong><b><u>Amendment 15.</u></b> <strong>2017</strong>: Scoring Rule Change: Field Goals points are awarded on distance made instead of just Field Goals made
+	<ul>
+		<li>0 - 39 yards = 3 points</li>
+		<li>40 - 49 yards = 4 points</li>
+		<li>50 - 59 yards = 5 points</li>
+		<li>60+ yards = 6 points</li>
+	</ul>
+</p>
 
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <p><b>Rule Book Updates</b></p>
 <p><a name="update20080621" id="update20080621"></a>Update 2008-06-21 - major reformatting and minor edits</p>
 <p><a name="update20120730" id="update20120730"></a>Update 2012-07-30 - modification to schedule rotation to be more flexible with relation to NFL schedule</p>
-<p><a name="update20150822" id="update20150822"></a>Update 2015-08-22 - Amendment 11</p>
+<p><a name="update20150822" id="update20150822"></a>Update 2015-08-22 - Amendment 12</p>
+<p><a name="update20170827" id="update20170827"></a>Update 2017-08-27
+<ul>
+	<li>Amendment 13</li>
+	<li>Amendment 14</li>
+	<li>Amendment 15</li>
+</ul>
+</p>
 
 @endsection
