@@ -6,27 +6,29 @@
 	<h1>Team History Grid</h1>
 	<div class="col-md-12">
 		<ul class="list-inline">
-		<li><i class="divisionwinner icon ion-ribbon-a"></i> = Division Winner</li>
-		<li><i class="wildcardwinner icon ion-ribbon-b"></i> = Wild Card</li>
-    	<li><i class="leaguefirst icon ion-trophy"></i> = League Champ</li>
+		<li><i class="divisionwinner icon ion-ribbon-a" title="Division"></i> = Division Winner</li>
+		<li><i class="wildcardwinner icon ion-ribbon-b" title="Wildcard"></i> = Wild Card</li>
+    	<li><i class="leaguefirst icon ion-trophy" title="MTFFL Champ"></i> = MTFFL Champ</li>
+		<li><a href="/history-grid/all">Show All Teams</a></li>
 		</ul>
 	</div>
 	<div class="col-md-12" style="overflow: auto">
 		<table class="history-grid">
-			<tr>
-                <th>Team</th>
-				@foreach( $seasons as $s )
-					<th>{{ $s }}</th>
-				@endforeach
-			</tr>
             @foreach( $allresults as $teamId => $team )
 				<tr>
-					<td class="team"><a href="/team/info/{{ $teamId }}">{{ $team['team_longname'] }}</a></td>
+					<td colspan="20"><h3><a href="/team/info/{{ $teamId }}">{{ $team['team_longname'] }}</a></h3></td>
+				</tr>
+				<tr>
+					@foreach( $seasons as $s )
+						<th>{{ $s }}</th>
+					@endforeach
+				</tr>
+				<tr>
 					@foreach( $team['results'] as $result )
 						<td class="{{ $result['active'] . ' ' . $result['made_playoffs'] }}">{{ $result['overall'] }}<br>{{ $result['division'] }}<br>
-                        @if ( 'divisionwinner' == $result['made_playoffs'] ) <i class="divisionwinner icon ion-ribbon-a"></i>@endif
-                        @if ( 'wildcardwinner' == $result['made_playoffs'] ) <i class="wildcardwinner icon ion-ribbon-b"></i>@endif
-                        @if ( '1' == $result['league_finish'] ) <i class="leaguefirst icon ion-trophy"></i> @endif
+                        @if ( 'divisionwinner' == $result['made_playoffs'] ) <i class="divisionwinner icon ion-ribbon-a" title="Division"></i>@endif
+                        @if ( 'wildcardwinner' == $result['made_playoffs'] ) <i class="wildcardwinner icon ion-ribbon-b" title="Wildcard"></i>@endif
+                        @if ( '1' == $result['league_finish'] ) <i class="leaguefirst icon ion-trophy" title="MTFFL Champ"></i> @endif
 						</td>
 					@endforeach
 				</tr>

@@ -132,7 +132,13 @@ class HomeController extends Controller	{
 
 		return $this->returnView('divisionWinners', [ 'seasons' => $seasons ] );
 	}
-	public function historyGrid() {
+	public function historyGrid( $status = '' ) {
+		if( '' == $status ) {
+			$status = 'active';
+		} else {
+			$status = 'all';
+		}
+
 		$empty_results = array();
 		$currentSeason = DB::table('mtffl_config')->where('config_name','current_season')->value('config_value');
 
@@ -148,13 +154,19 @@ class HomeController extends Controller	{
 			);
 		}
 
-		$teams = DB::table('team_details')
-			->select( 'team_longname','team_id','division' )
-			->where( 'league', 'mtffl' )
-			->orderBy( 'division' )->orderBy('mfl_id')->orderBy('member_since')
-			->get();
+		$query = DB::table('team_details');
+		$query->select( 'team_longname','team_id','division' );
+		$query->where( 'league', 'mtffl' );
+		if( 'active' == $status ) {
+			$query->where('status', 'active');
+		}
+		$query->orderBy( 'division' )->orderBy('mfl_id')->orderBy('member_since');
+		$teams = $query->get();
+
 		$history = array();
+		$team_ids = array();
 		foreach( $teams as $a ) {
+			$team_ids[] = $a->team_id;
 			$history[$a->team_id] = array(
 				'team_longname' => $a->team_longname,
 				'team_id' => $a->team_id,
@@ -166,6 +178,7 @@ class HomeController extends Controller	{
 		$results = DB::table('team_season_results')
 			->select( 'team_id','season','wins','losses','ties','division_wins','division_losses','division_ties','division_finish','league_finish','wildcard','league' )
 			->where( 'league', 'mtffl' )
+			->whereIn( 'team_id', $team_ids )
 			->get();
 		foreach( $results as $r ) {
 			$overall = $r->wins.'-'.$r->losses;

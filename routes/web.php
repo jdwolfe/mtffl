@@ -21,7 +21,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/hall-of-champions', 'HomeController@hallofChampions')->name('hall-of-champions');
 Route::get('/division-winners', 'HomeController@divisionWinners')->name('division-winners');
-Route::get('/history-grid', 'HomeController@historyGrid')->name('history-grid');
+Route::get('/history-grid/{status?}', 'HomeController@historyGrid')->name('history-grid');
 Route::get('/trophies', 'HomeController@trophies')->name('trophies');
 Route::get('/rulebook', 'HomeController@rulebook')->name('rulebook');
 Route::get('/rule-amendments', 'HomeController@ruleAmendments')->name('rule-amendments');
