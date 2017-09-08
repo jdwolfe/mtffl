@@ -42,12 +42,17 @@ class AdminController extends Controller {
 		$this->middleware('auth');
 		$currentHome = DB::table('mtffl_config')->where('config_name','homepage')->value('config_value');
 		$nfl_start = DB::table('mtffl_config')->where('config_name','nfl_start')->value('config_value');
-		return $this->returnView('admin', [ 'currentHome' => $currentHome, 'nfl_start' => $nfl_start ] );
+		$teams = DB::table('team_details')->select('team_id','team_longname')->where('league','mtffl')->where('status','active')->orderBy('team_longname')->get();
+		$active_teams = array();
+		foreach( $teams as $t ) {
+			$active_teams[ $t->team_id ] = $t->team_longname;
+		}
+		return $this->returnView('admin', [ 'currentHome' => $currentHome, 'nfl_start' => $nfl_start, 'active_teams' => $active_teams ] );
 	}
 
 	public function showHome( $option = '' ) {
 		// check
-		$options = array( 'Champion', 'DraftDay', 'MatchUps' );
+		$options = array( 'Champion', 'DraftDay', 'Matches' );
 		if ( in_array( $option, $options ) ) {
 			DB::table('mtffl_config')->where('config_name','homepage')->update( [ 'config_value' => $option ] );
 			Session::flash('message', 'Homepage updated to ' . $option );
@@ -72,6 +77,30 @@ class AdminController extends Controller {
 		DB::table('mfl_info')->insert( $mfl );
 
 		Session::flash('message', 'Updated to season ' . $current_season );
+		return redirect('admin');
+	}
+
+	public function replaceTeam( Request $request ) {
+		$input = $request->all();
+		$old_team_id = $input['retire_team'];
+		$old_team = DB::table('team_details')->select('team_longname','mfl_id','division')->where('team_id', $old_team_id)->first();
+		$retired_season = intval( $this->currentSeason ) - 1;
+		$update = array(
+			'retired_from_league' => $retired_season,
+			'status' => 'retired',
+		);
+		DB::table('team_details')->where('team_id',$old_team_id)->update( $update );
+
+		$insert = array(
+			'mfl_id' => $old_team->mfl_id,
+			'division' => $old_team->division,
+			'member_since' => $this->currentSeason,
+			'team_longname' => $input['new_team_longname'],
+			'owner_name' => $input['new_owner_name']
+		);
+		DB::table('team_details')->insert( $insert );
+
+		Session::flash('message', 'Retired ' . $old_team->team_longname . '; Added ' . $input['new_team_longname'] );
 		return redirect('admin');
 	}
 }
