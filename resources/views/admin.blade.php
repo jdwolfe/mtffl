@@ -11,7 +11,7 @@
 					<ul>
 						<li><a href="{{ url('admin/showHome/Champion') }}">Champion</a></li>
 						<li><a href="{{ url('admin/showHome/DraftDay') }}">Draft Day</a></li>
-						<li><a href="{{ url('admin/showHome/MatchUps') }}">Match Ups</a></li>
+						<li><a href="{{ url('admin/showHome/Matches') }}">Matches</a></li>
 					</ul>
 				</div>
 			</div>
@@ -27,6 +27,22 @@
 						MLF Number: <input type="text" name="mfl_number" value="" /><br>
 						{{ csrf_field() }}
 						<button type="submit" value="Next" class="btn btn-success">Next</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">Retire & Replace a Team</div>
+				<div class="panel-body">
+					<form action="{{ url('admin/replaceTeam') }}" method="post">
+						{{ Form::select( 'retire_team', $active_teams ) }}<br>
+						<input type="text" name="new_team_longname" placeholder="Enter New Team Name" /><br>
+						<input type="text" name="new_owner_name" placeholder="Enter New Owner Name" /><br>
+						{{ csrf_field() }}
+						<button type="submit" value="Next" class="btn btn-success">Replace Team</button>
 					</form>
 				</div>
 			</div>

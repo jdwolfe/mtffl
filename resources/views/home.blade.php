@@ -10,8 +10,8 @@
 	@include('homeChampion')
 @elseif( $currentHome == 'DraftDay' )
 	@include('homeDraftDay')
-@elseif( $currentHome == 'MatchUps' )
-	@include('homeMatchUps')
+@elseif( $currentHome == 'Matches' )
+	@include('homeMatches')
 @endif
 
 @endsection

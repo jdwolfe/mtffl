@@ -183,3 +183,14 @@ table.division-winners-set td.team {
 }
 
 /* end rules */
+
+/* home page matchup */
+.matchup-score {
+	font-size: 2em;
+}
+.matchup-sub-info {
+	font-size: 0.8em;
+}
+
+/* end home page matchup */
+

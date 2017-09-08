@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Http\Controllers\NewsController;
+use App\Mtffl\Mtffl;
 
 class HomeController extends Controller	{
 	private $mflUrl = '';
+	private $season = 2017;
+	private $week = 1;
+	private $team_info = array();
+	private $mfl_server = '';
+	private $mfl_number = '';
 
     /**
      * Create a new controller instance.
@@ -17,12 +23,16 @@ class HomeController extends Controller	{
     public function __construct() {
 		$mflInfo = DB::table('mfl_info')->select('season','mfl_number','mfl_server')->where('league','mtffl')->orderBy('id','desc')->take(1)->first();
 		$this->mflUrl = 'https://' . $mflInfo->mfl_server . '.myfantasyleague.com/' . $mflInfo->season . '/home/' . $mflInfo->mfl_number;
+		$this->mfl_server = $mflInfo->mfl_server;
+		$this->mfl_number = $mflInfo->mfl_number;
     }
 
 	private function returnView( $template = '', $data = NULL ) {
 		$data['mflUrl'] = $this->mflUrl;
 		$News = new NewsController();
 		$data['news'] = $News->getNews();
+		$data['season'] = $this->season;
+		$data['week'] = $this->week;
 		return view( $template, $data );
 	}
     /**
@@ -31,8 +41,31 @@ class HomeController extends Controller	{
      * @return \Illuminate\Http\Response
      */
 	public function index() {
+		$data = array();
 		$currentHome = DB::table('mtffl_config')->where('config_name','homepage')->value('config_value');
-		return $this->returnView('home', [ 'currentHome' => $currentHome ] );
+		if( 'Matches' == $currentHome ) {
+			$matches_cache = DB::table('mtffl_config')->where('config_name', 'matches')->value('config_value');
+			$matches_cache = json_decode( $matches_cache );
+			if ( NULL == $matches_cache || ( time() - $matches_cache->update_time > 60 * 5 ) ) {
+				$cache = new \StdClass();
+				$cache->update_time = time();
+				$data['matches_update'] = date( 'Y-m-d H:i:s', $cache->update_time );
+				$data['matches'] = $this->getMatches();
+				$cache->matches = $data['matches'];
+				$cache = json_encode( $cache );
+				if( NULL == $matches_cache ) {
+					DB::table('mtffl_config')->insert( [ 'config_name' => 'matches', 'config_value' => $cache ] );
+				} else {
+					DB::table('mtffl_config')->where('config_name', 'matches')->update( ['config_value' => $cache ] );
+				}
+			} else {
+				$data['matches_update'] = date( 'Y-m-d H:i:s', $matches_cache->update_time );
+				$data['matches'] = $matches_cache->matches;
+			}
+
+		}
+		$data['currentHome'] = $currentHome;
+		return $this->returnView( 'home', $data );
 	}
 
 	/*
@@ -200,6 +233,81 @@ class HomeController extends Controller	{
 		}
 
 		return $this->returnView('historyGrid', [ 'seasons' => $seasons, 'allresults' => $history ] );
+	}
+
+	private function getMatches() {
+		$Mtffl = new Mtffl;
+
+		$this->team_info = DB::table('team_details')
+			->select('team_longname', 'team_id', 'division', 'user_id', 'mfl_id', 'owner_name')
+			->where('league','mtffl')->where('status','active')
+			->get();
+
+		$schedule = array();
+		// get live scoring
+		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->season . "/export/export?TYPE=liveScoring&L=" . $this->mfl_number;
+
+		$xml = $Mtffl->GetXML( $strURL );
+		if ( $xml !== FALSE ) {
+			foreach ( $xml as $match) {
+				$A_id=0;
+				$H_id=0;
+				$home_team = array();
+				$away_team = array();
+
+				foreach ($match->franchise as $franchise) {
+					$t = strval($franchise['id']);
+					if ( $franchise['isHome'] == "0" ) {
+						$A_id = $t;
+						$away_score = strval($franchise['score']);
+						$away_ytp = strval($franchise['playersYetToPlay']);
+						$away_ip = strval($franchise['playersCurrentlyPlaying']);
+						$away_gmr = ceil( intval($franchise['gameSecondsRemaining']) );
+						$away_team = $this->getTeamByMFLId( $franchise['id'] );
+					}
+					else {
+						$H_id = $t;
+						$home_score = strval($franchise['score']);
+						$home_ytp = strval($franchise['playersYetToPlay']);
+						$home_ip = strval($franchise['playersCurrentlyPlaying']);
+						$home_gmr = ceil( intval($franchise['gameSecondsRemaining']) );
+						$home_team = $this->getTeamByMFLId( $franchise['id'] );
+					}
+				}
+
+				if ( isset( $away_team->team_id ) && isset( $home_team->team_id ) ) {
+					$away_min = floor( $away_gmr / 60 );
+					$away_sec = sprintf( '%02d', ( $away_gmr % 60 ) );
+					$home_min = floor( $home_gmr / 60 );
+					$home_sec = sprintf( '%02d', ( $home_gmr % 60 ) );
+					$schedule[] = array(
+						'away_team_id' => $away_team->team_id,
+						'away_team' => $away_team->team_longname,
+						'away_score' => $away_score,
+						'away_ytp' => $away_ytp,
+						'away_ip' => $away_ip,
+						'away_gmr' => $away_min . ':' . $away_sec,
+						'home_team_id' => $home_team->team_id,
+						'home_team' => $home_team->team_longname,
+						'home_score' => $home_score,
+						'home_ytp' => $home_ytp,
+						'home_ip' => $home_ip,
+						'home_gmr' => $home_min . ':' . $home_sec,
+					);
+				}
+			}
+		}
+
+		return json_decode( json_encode( $schedule ) );
+	}
+
+	private function getTeamByMFLId( $mfl_id = 0 ) {
+		foreach( $this->team_info as $t ) {
+			if ( $t->mfl_id == $mfl_id ) {
+				return $t;
+			}
+		}
+		return array();
 	}
 
 }

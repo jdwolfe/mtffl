@@ -41,3 +41,4 @@ Route::get('/team/matchup/{team_id}/{opp_id}', 'TeamController@matchup')->name('
 Route::get('/admin', 'AdminController@index')->name('admin');
 Route::get('/admin/showHome/{option}', 'AdminController@showHome')->name('showHome');
 Route::post('/admin/newSeason', 'AdminController@newSeason')->name('newSeason');
+Route::post('/admin/replaceTeam', 'AdminController@replaceTeam')->name('replaceTeam');
