@@ -211,7 +211,7 @@ class AdminController extends Controller {
 
 				}
 			}
-		} // end for week 1 to 16
+		} // end for week 1 to 14
 
 		$this->updateSeasonResults();
 
