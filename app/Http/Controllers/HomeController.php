@@ -9,8 +9,8 @@ use App\Mtffl\Mtffl;
 
 class HomeController extends Controller	{
 	private $mflUrl = '';
-	private $season = 2017;
-	private $week = 1;
+	private $currentSeason = 2017;
+	private $currentWeek = 1;
 	private $team_info = array();
 	private $mfl_server = '';
 	private $mfl_number = '';
@@ -25,14 +25,19 @@ class HomeController extends Controller	{
 		$this->mflUrl = 'https://' . $mflInfo->mfl_server . '.myfantasyleague.com/' . $mflInfo->season . '/home/' . $mflInfo->mfl_number;
 		$this->mfl_server = $mflInfo->mfl_server;
 		$this->mfl_number = $mflInfo->mfl_number;
+		$config = DB::table('mtffl_config')->get();
+		foreach( $config as $c ) {
+			if( 'current_season' == $c->config_name ) { $this->currentSeason = $c->config_value; }
+			if( 'current_week' == $c->config_name ) { $this->currentWeek = $c->config_value; }
+		}
     }
 
 	private function returnView( $template = '', $data = NULL ) {
 		$data['mflUrl'] = $this->mflUrl;
 		$News = new NewsController();
 		$data['news'] = $News->getNews();
-		$data['season'] = $this->season;
-		$data['week'] = $this->week;
+		$data['season'] = $this->currentSeason;
+		$data['week'] = $this->currentWeek;
 		return view( $template, $data );
 	}
     /**
@@ -245,7 +250,7 @@ class HomeController extends Controller	{
 
 		$schedule = array();
 		// get live scoring
-		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->season . "/export/export?TYPE=liveScoring&L=" . $this->mfl_number;
+		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=liveScoring&L=" . $this->mfl_number . "&W=" . $this->currentWeek;
 
 		$xml = $Mtffl->GetXML( $strURL );
 		if ( $xml !== FALSE ) {
