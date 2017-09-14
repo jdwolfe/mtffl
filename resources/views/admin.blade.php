@@ -6,6 +6,16 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-default">
+				<div class="panel-heading">Weekly Tasks</div>
+				<div class="panel-body">
+					<ul>
+						<li><a href="{{ url('admin/updateSchedule') }}">Update Schedule</a></li>
+						<li><a href="{{ url('admin/updateScores') }}">Update Scores</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>		<div class="col-md-6">
+			<div class="panel panel-default">
 				<div class="panel-heading">Current Home: {{ $currentHome }}</div>
 				<div class="panel-body">
 					<ul>
@@ -16,6 +26,8 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">Current Season: {{ $currentSeason }}<br>Week: {{ $currentWeek }}</div>
@@ -31,8 +43,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">Retire & Replace a Team</div>

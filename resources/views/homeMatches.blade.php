@@ -4,11 +4,11 @@
 		<table class="table">
 		@foreach( $matches as $m )
 		<tr>
-			<td colspan="3">{{ $m->away_team }}</td>
+			<td colspan="3"><a href="{{ url('/team/info/' . $m->away_team_id ) }}">{{ $m->away_team }}</a></td>
 			<td class="matchup-score" rowspan="2"><b>{{ $m->away_score }}</b></td>
 			<td></td>
 			<td class="matchup-score" rowspan="2"><b>{{ $m->home_score }}</b></td>
-			<td colspan="3">{{ $m->home_team }}</td>
+			<td colspan="3"><a href="{{ url('/team/info/' . $m->home_team_id ) }}">{{ $m->home_team }}</a></td>
 		</tr>
 		<tr class="matchup-sub-info">
 			<td>IP: <b>{{ $m->away_ip }}</b></td>
@@ -31,3 +31,8 @@
 		</ul>
 	</div>
 </div>
+@if ( !Auth::guest() )
+<div class="row">
+	<div class="col-md-12"><a href="/admin/updateScores">Update Scores</a></div>
+</div>
+@endif
