@@ -429,4 +429,12 @@ class AdminController extends Controller {
 		}
 
 	}
+
+	public function advanceWeek() {
+		$week = intval( $this->currentWeek );
+		$week++;
+		DB::table('mtffl_config')->where('config_name','current_week')->update( [ 'config_value' => $week ] );
+		Session::flash( 'message', 'Advanced Week to ' . $week );
+		return redirect('admin');
+	}
 }
