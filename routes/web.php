@@ -44,3 +44,4 @@ Route::post('/admin/newSeason', 'AdminController@newSeason')->name('newSeason');
 Route::post('/admin/replaceTeam', 'AdminController@replaceTeam')->name('replaceTeam');
 Route::get('/admin/updateSchedule', 'AdminController@updateSchedule')->name('updateSchedule');
 Route::get('/admin/updateScores', 'AdminController@updateScores')->name('updateScores');
+Route::get('/admin/advanceWeek', 'AdminController@advanceWeek')->name('advanceWeek');

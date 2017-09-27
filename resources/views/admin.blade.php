@@ -11,6 +11,7 @@
 					<ul>
 						<li><a href="{{ url('admin/updateSchedule') }}">Update Schedule</a></li>
 						<li><a href="{{ url('admin/updateScores') }}">Update Scores</a></li>
+						<li><a href="{{ url('admin/advanceWeek') }}">Advance Week</a></li>
 					</ul>
 				</div>
 			</div>
