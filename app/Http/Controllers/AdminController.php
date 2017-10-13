@@ -139,7 +139,7 @@ class AdminController extends Controller {
 		// get schedule from live scoring
 		$message = '';
 		for( $week = 1; $week <= 14; $week++ ) {
-			$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=liveScoring&L=" . $this->mfl_number . "&W=" . $week;
+			$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=liveScoring&L=" . $this->mfl_number . "&W=" . $week . "&cb=" . time();
 
 			$xml = $Mtffl->GetXML( $strURL );
 			if ( $xml !== FALSE ) {
@@ -229,7 +229,7 @@ class AdminController extends Controller {
 
 		// get schedule from live scoring
 		$message = '';
-		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=liveScoring&L=" . $this->mfl_number . "&W=" . $this->currentWeek;
+		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=liveScoring&L=" . $this->mfl_number . "&W=" . $this->currentWeek . "&cb=" . time();
 
 		$xml = $Mtffl->GetXML( $strURL );
 		if ( $xml !== FALSE ) {
@@ -366,12 +366,11 @@ class AdminController extends Controller {
 						'opp_score' => $home_score
 					);
 					DB::table('team_records')->where( $where )->update( $update );
-					$message .= 'Week ' . $this->currentWeek . ' ' . $away_team_id . '@' . $home_team_id . ' updating team_records<br>';
+					$message .= 'Week ' . $this->currentWeek . ' ' . $away_team_id . ' ' . $away_score . '@' . $home_team_id . ' ' . $home_score . ' updating team_records<br>';
 				}
 
 			}
 		}
-
 		$this->updateSeasonResults();
 
 		Session::flash('message', $message);
@@ -395,7 +394,7 @@ class AdminController extends Controller {
 		}
 
 		$Mtffl = new Mtffl();
-		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=standings&L=" . $this->mfl_number;
+		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=standings&L=" . $this->mfl_number . "&cb=" . time();
 		$xml = $Mtffl->GetXML( $strURL );
 		if ( $xml !== FALSE ) {
 			foreach ( $xml as $f ) {
