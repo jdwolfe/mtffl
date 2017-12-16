@@ -138,7 +138,7 @@ class AdminController extends Controller {
 
 		// get schedule from live scoring
 		$message = '';
-		for( $week = 1; $week <= 14; $week++ ) {
+		for( $week = 1; $week <= 16; $week++ ) {
 			$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=liveScoring&L=" . $this->mfl_number . "&W=" . $week . "&cb=" . time();
 
 			$xml = $Mtffl->GetXML( $strURL );
@@ -157,22 +157,22 @@ class AdminController extends Controller {
 					$match_check = DB::table('schedule')->select('gid')
 						->where('season', $this->currentSeason)
 						->where('week', $week)
-						->where('home_team_id', $home_team->id)
-						->where('away_team_id', $away_team->id)
+						->where('home_team_id', $home_team->team_id)
+						->where('away_team_id', $away_team->team_id)
 						->first();
 
 					if( NULL != $match_check ) {
-						$message .= 'Week ' . $week . ' ' . $away_team->id . '@' . $home_team->id . ' already exists<br>';
+						$message .= 'Week ' . $week . ' ' . $away_team->team_id . '@' . $home_team->team_id . ' already exists<br>';
 						continue;
 					}
 
-					$message .= 'Week ' . $week . ' ' . $away_team->id . '@' . $home_team->id . ' inserting<br>';
+					$message .= 'Week ' . $week . ' ' . $away_team->team_id . '@' . $home_team->team_id . ' inserting<br>';
 					$insert = array(
 						'league' => 'mtffl',
 						'season' => $this->currentSeason,
 						'week' => $week,
-						'away_team_id' => $away_team->id,
-						'home_team_id' => $home_team->id,
+						'away_team_id' => $away_team->team_id,
+						'home_team_id' => $home_team->team_id,
 						'playoffbracket' => 'regular',
 						'playoffbrackettier' => 'none'
 					);
@@ -189,8 +189,8 @@ class AdminController extends Controller {
 						'league' => 'mtffl',
 						'season' => $this->currentSeason,
 						'week' => $week,
-						'team_id' => $home_team->id,
-						'opp_id' => $away_team->id,
+						'team_id' => $home_team->team_id,
+						'opp_id' => $away_team->team_id,
 						'location' => 'home',
 						'division' => $division,
 						'game_type' => $game_type
@@ -201,8 +201,8 @@ class AdminController extends Controller {
 						'league' => 'mtffl',
 						'season' => $this->currentSeason,
 						'week' => $week,
-						'team_id' => $away_team->id,
-						'opp_id' => $home_team->id,
+						'team_id' => $away_team->team_id,
+						'opp_id' => $home_team->team_id,
 						'location' => 'away',
 						'division' => $division,
 						'game_type' => $game_type
