@@ -42,6 +42,10 @@ class TeamController extends Controller	{
 
 	public function info( $team_id = 0 ) {
 		$team['teamInfo'] = $this->getTeam( $team_id );
+		if( NULL === $team['teamInfo'] ) {
+			return $this->returnView('notFound');
+		}
+
 		$team['teamDetails'] = $this->getTeamDetails( $team_id );
 		$team['headtohead'] = $this->getH2H( $team_id );
 		return $this->returnView('teamInfo', $team );
@@ -119,7 +123,7 @@ class TeamController extends Controller	{
 
 		}
 		if ( $team->retired_from_league == 2100 ) { $team->retired_from_league="present"; }
-		if ( '' == $team->team_longname ) { $team->team_longname = 'Team Does Not Exist'; }
+		if ( '' == $team->team_longname ) { $team = NULL; }
 
 		return $team;
 	}
