@@ -52,9 +52,14 @@ class TeamController extends Controller	{
 		$team['teamInfo']->season = $season;
 		$record = DB::table('team_season_results')->select('wins', 'losses', 'ties', 'division_wins', 'division_losses', 'division_ties')
 			->where('team_id', $team_id)->where('season', $season)->first();
-		$team['teamInfo']->record = $record->wins . '-' . $record->losses . '-' . $record->ties .
+		if( NULL !== $record ) {
+			$team['teamInfo']->record = $record->wins . '-' . $record->losses . '-' . $record->ties .
 			' (' . $record->division_wins . '-' . $record->division_losses . '-' . $record->division_ties . ')';
-		$team['schedule'] = $this->getSchedule( $team_id, $season );
+			$team['schedule'] = $this->getSchedule( $team_id, $season );
+		} else {
+			$team['teamInfo']->record = '';
+			$team['schedule'] = array();
+		}
 		$team['chart'] = array(
 			'chart_labels' => '',
 			'chart_data' => '',
