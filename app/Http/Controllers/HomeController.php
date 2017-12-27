@@ -69,6 +69,22 @@ class HomeController extends Controller	{
 			}
 
 		}
+
+		if( 'Champion' == $currentHome ) {
+			$data['champ'] = DB::table('team_details')->join('team_season_results', 'team_details.team_id', '=', 'team_season_results.team_id')
+				->select('team_details.team_id','team_details.team_longname','team_details.owner_name')
+				->where('team_season_results.league', 'mtffl')
+				->where('team_season_results.season', $this->currentSeason)
+				->where('team_season_results.league_finish', 1)->first();
+			if( NULL == $data['champ'] ) {
+				$data['champ'] = new \stdClass();
+				$data['champ']->team_id = 0;
+				$data['champ']->team_longname = 'No team selected';
+				$data['champ']->owner_name = '';
+			}
+		}
+
+		$data['currentSeason'] = $this->currentSeason;
 		$data['currentHome'] = $currentHome;
 		return $this->returnView( 'home', $data );
 	}
