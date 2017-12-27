@@ -436,4 +436,38 @@ class AdminController extends Controller {
 		Session::flash( 'message', 'Advanced Week to ' . $week );
 		return redirect('admin');
 	}
+
+	public function formEndSeasonResults() {
+		$teams = DB::table('team_details')->select('team_id','team_longname')->where('league','mtffl')->where('status','active')->orderBy('team_longname')->get();
+		$active_teams = array();
+		foreach( $teams as $t ) {
+			$t->season_results = DB::table('team_season_results')->select('wildcard','division_finish','league_finish')->where('league','mtffl')->where('season', $this->currentSeason)->where('team_id', $t->team_id)->first();
+		}
+		return $this->returnView('adminEndSeasonResults', [ 'teams' => $teams ] );
+	}
+
+	public function setEndSeasonResults( Request $request ) {
+		$input = $request->all();
+		$season = $this->currentSeason;
+
+		$teams = DB::table('team_details')->select('team_id','team_longname')->where('league','mtffl')->where('status','active')->orderBy('team_longname')->get();
+		$active_teams = array();
+		foreach( $teams as $t ) {
+			$where = array(
+				'season' => $this->currentSeason,
+				'league' => 'mtffl',
+				'team_id' => $t->team_id
+			);
+			$update = array(
+				'division_finish' => $input['team_id_' . $t->team_id . '_division_finish'],
+				'league_finish' => $input['team_id_' . $t->team_id . '_league_finish'],
+				'wildcard' => $input['team_id_' . $t->team_id . '_wildcard'],
+			);
+			DB::table('team_season_results')->where( $where )->update( $update );
+		}
+
+		Session::flash( 'message', 'Season Results Updated' );
+		return redirect('admin/formEndSeasonResults');
+	}
+
 }

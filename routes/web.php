@@ -45,3 +45,5 @@ Route::post('/admin/replaceTeam', 'AdminController@replaceTeam')->name('replaceT
 Route::get('/admin/updateSchedule', 'AdminController@updateSchedule')->name('updateSchedule');
 Route::get('/admin/updateScores', 'AdminController@updateScores')->name('updateScores');
 Route::get('/admin/advanceWeek', 'AdminController@advanceWeek')->name('advanceWeek');
+Route::get('/admin/formEndSeasonResults', 'AdminController@formEndSeasonResults')->name('formEndSeasonResults');
+Route::post('/admin/setEndSeasonResults', 'AdminController@setEndSeasonResults')->name('setEndSeasonResults');

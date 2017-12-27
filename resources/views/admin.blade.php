@@ -4,7 +4,7 @@
 <div class="container">
 	<h1>Dashboard</h1>
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">Weekly Tasks</div>
 				<div class="panel-body">
@@ -15,7 +15,18 @@
 					</ul>
 				</div>
 			</div>
-		</div>		<div class="col-md-6">
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">End Season Tasks</div>
+				<div class="panel-body">
+					<ul>
+						<li><a href="{{ url('admin/formEndSeasonResults') }}">End Season Results</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">Current Home: {{ $currentHome }}</div>
 				<div class="panel-body">
