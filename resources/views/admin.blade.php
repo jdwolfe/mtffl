@@ -34,6 +34,7 @@
 						<li><a href="{{ url('admin/showHome/Champion') }}">Champion</a></li>
 						<li><a href="{{ url('admin/showHome/DraftDay') }}">Draft Day</a></li>
 						<li><a href="{{ url('admin/showHome/Matches') }}">Matches</a></li>
+						<li><a href="{{ url('admin/showHome/Offseason') }}">Offseason</a></li>
 					</ul>
 				</div>
 			</div>

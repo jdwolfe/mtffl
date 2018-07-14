@@ -12,6 +12,8 @@
 	@include('homeDraftDay')
 @elseif( $currentHome == 'Matches' )
 	@include('homeMatches')
+@elseif( $currentHome == 'Offseason' )
+	@include('homeOffseason')
 @endif
 
 @endsection

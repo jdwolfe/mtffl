@@ -58,7 +58,7 @@ class AdminController extends Controller {
 
 	public function showHome( $option = '' ) {
 		// check
-		$options = array( 'Champion', 'DraftDay', 'Matches' );
+		$options = array( 'Champion', 'DraftDay', 'Matches', 'Offseason' );
 		if ( in_array( $option, $options ) ) {
 			DB::table('mtffl_config')->where('config_name','homepage')->update( [ 'config_value' => $option ] );
 			Session::flash('message', 'Homepage updated to ' . $option );
