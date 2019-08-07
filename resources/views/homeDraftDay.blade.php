@@ -9,8 +9,6 @@
 	<div>&nbsp;</div>
 	<div>&nbsp;</div>
 	<div class="text-center">Freeze Deadline: Friday, August 16, 11pm CT.</div>
-	<div class="text-center">Click for to add a reminder 
-	</div>
 	<div>&nbsp;</div>
 	<div class="text-center"><a href="https://www62.myfantasyleague.com/2019/options?L=42559&O=144">Click</a> to freeze your players.</div>
 	<div class="text-center">Discuss here: <a href="https://www.mtffl.com/smackroom/viewtopic.php?f=1&t=2648">http://mtffl.com/smackroom/</a></div>
