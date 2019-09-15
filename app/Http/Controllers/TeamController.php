@@ -76,12 +76,15 @@ class TeamController extends Controller	{
 		// sanitize and check the id's
 		$team_id = intval( $team_id );
 		$opp_id = intval( $opp_id );
-		if( $team_id == 0 || $opp_id == 0 || $team_id == $opp_id) {
+		if( $team_id == 0 || $opp_id == 0 || $team_id == $opp_id ) {
 			return $this->returnView('error', [ 'message' => 'Invalid Team Matchup' ] );
 		}
 
 		$team['teamInfo'] = DB::table('team_details')->select('team_id', 'team_longname')->where('team_id', $team_id)->first();
 		$team['oppInfo'] = DB::table('team_details')->select('team_id', 'team_longname')->where('team_id', $opp_id)->first();
+   		if( $team['teamInfo'] === NULL || $team['oppInfo'] === NULL ) {
+			return $this->returnView('error', [ 'message' => 'One of those teams does not exist.' ] );
+		}
 
 		$this->team_id = $team_id;
 		$team['headtohead'] = $this->getMatchup( $team_id, $opp_id );
