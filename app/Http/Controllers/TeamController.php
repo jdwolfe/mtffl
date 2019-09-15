@@ -8,6 +8,7 @@ use DB;
 class TeamController extends Controller	{
 	private $mflUrl = '';
 	private $team_id = 0;
+	private $mflInfo = NULL;
 
     /**
      * Create a new controller instance.
@@ -15,8 +16,8 @@ class TeamController extends Controller	{
      * @return void
      */
     public function __construct() {
-		$mflInfo = DB::table('mfl_info')->select('season','mfl_number','mfl_server')->where('league','mtffl')->orderBy('id','desc')->take(1)->first();
-		$this->mflUrl = 'https://' . $mflInfo->mfl_server . '.myfantasyleague.com/' . $mflInfo->season . '/home/' . $mflInfo->mfl_number;
+		$this->mflInfo = DB::table('mfl_info')->select('season','mfl_number','mfl_server')->where('league','mtffl')->orderBy('id','desc')->take(1)->first();
+		$this->mflUrl = 'https://' . $this->mflInfo->mfl_server . '.myfantasyleague.com/' . $this->mflInfo->season . '/home/' . $this->mflInfo->mfl_number;
     }
 
 	private function returnView( $template = '', $data = NULL ) {
@@ -72,8 +73,16 @@ class TeamController extends Controller	{
 	}
 
 	public function matchup( $team_id = 0, $opp_id = 0 ) {
+		// sanitize and check the id's
+		$team_id = intval( $team_id );
+		$opp_id = intval( $opp_id );
+		if( $team_id == 0 || $opp_id == 0 || $team_id == $opp_id) {
+			return $this->returnView('error', [ 'message' => 'Invalid Team Matchup' ] );
+		}
+
 		$team['teamInfo'] = DB::table('team_details')->select('team_id', 'team_longname')->where('team_id', $team_id)->first();
 		$team['oppInfo'] = DB::table('team_details')->select('team_id', 'team_longname')->where('team_id', $opp_id)->first();
+
 		$this->team_id = $team_id;
 		$team['headtohead'] = $this->getMatchup( $team_id, $opp_id );
 		$team['record'] = '';
@@ -297,5 +306,48 @@ class TeamController extends Controller	{
 
 		return $schedule;
 	}
+
+	public function rankTeams( $type = 'bySeason', $order = 'worst' ) {
+		$team_list = array();
+		if( 'bySeason' == $type ) {
+			$title = ucfirst( $order ) . ' by Season';
+			for( $season=1998; $season<=$this->mflInfo->season; $season++ ) {
+				$teams = DB::table('team_season_results')
+					->select('season', 'team_id', 'points_for', 'wins', 'losses', 'ties', 'power_rank', 'all_play_wins',
+					'wins', 'losses', 'ties', 'division_wins', 'division_losses', 'division_ties')
+					->where('season', $season)
+					->where('league', 'mtffl')
+					->get();
+				if( 'worst' == $order ) {
+					$extreme_points_for = 9999;
+				} else { // best
+					$extreme_points_for = 0;
+				}
+				$total_points_for = 0;
+				foreach( $teams as $t ) {
+					$total_points_for += $t->points_for;
+					if( 'worst' == $order && $t->points_for < $extreme_points_for ) {
+						$team_list[ $season ] = $t;
+						$extreme_points_for = $t->points_for;
+					}
+
+					if( 'best' == $order && $t->points_for > $extreme_points_for ) {
+						$team_list[ $season ] = $t;
+						$extreme_points_for = $t->points_for;
+					}
+				}
+				if( $total_points_for > 0 ) {
+					$team = $this->getTeam( $team_list[ $season ]->team_id );
+					$team_list[ $season ]->teamname = $team->team_longname;
+					$team_list[ $season ]->league_average = sprintf( '%0.2f', $total_points_for / 12 );
+					$team_list[ $season ]->pct_of_avg = sprintf( '%0.2f', ( $team_list[ $season ]->points_for / $team_list[ $season ]->league_average) * 100 );
+				} else {
+					unset( $team_list[ $season ] );
+				}
+	 		}
+		}
+
+		return $this->returnView( 'teamsRank', [ 'title' => $title, 'teams' => $team_list ] );
+ 	}
 
 }
