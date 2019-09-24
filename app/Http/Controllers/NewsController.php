@@ -19,10 +19,10 @@ class NewsController extends Controller {
 		if ( NULL === $news || ( time() - $news->update_time ) > 60 ) {
 			// get new news
 			$xml = $this->GetXML('http://rss.footballguys.com/bloggerrss.xml');
-			if ( FALSE != $xml ) {
-				$news = array();
-				$news['update_time'] = time();
-				$news['stories'] = array();
+			$news = array();
+			$news['update_time'] = time();
+			$news['stories'] = array();
+			if ( FALSE !== $xml ) {
 				foreach( $xml->channel->item as $item ) {
 					$story = array();
 					$story['link'] = strval( $item->link );
@@ -36,7 +36,6 @@ class NewsController extends Controller {
 				// save the news!
 				DB::table('mtffl_config')->where('config_name', 'news_feed')->update( [ 'config_value' => $news ] );
 				$news = json_decode( $news );
-
 			}
 		}
 
