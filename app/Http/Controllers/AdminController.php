@@ -433,6 +433,8 @@ class AdminController extends Controller {
 		$week = intval( $this->currentWeek );
 		$week++;
 		DB::table('mtffl_config')->where('config_name','current_week')->update( [ 'config_value' => $week ] );
+		// remove the cached scores
+		DB::table('mtffl_config')->where( 'config_name', 'matches' )->delete();
 		Session::flash( 'message', 'Advanced Week to ' . $week );
 		return redirect('admin');
 	}
