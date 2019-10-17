@@ -67,7 +67,7 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading">Misc</div>
 					<table class="table">
-						<tr><th title="Average Power Rank per Season">Avg PR <span class="glyphicon glyphicon-info-sign"></span></th><th title="Average All Play Wins per Season (out of 182)">Avg APW <span class="glyphicon glyphicon-info-sign"></span></th></tr>
+						<tr><th title="Average Power Rank per Season">Avg PR <i class="icon ion-arrow-graph-up-right"></i></th><th title="Average All Play Wins per Season (out of 182)">Avg APW <i class="icon ion-arrow-graph-up-right"></i></th></tr>
 						<tr>
 							<td>{{ number_format( $teamDetails['avg_power_rank'], 2) }}</td>
 							<td>{{ number_format( $teamDetails['avg_all_play_wins'], 2) }}</td>
