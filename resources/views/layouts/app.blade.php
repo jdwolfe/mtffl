@@ -113,6 +113,7 @@
 					<div class="col-md-3">
 						<h5>FootballGuys News</h5>
 						<div>
+						@if( count( $news->stories ) > 0 )
 						@foreach( $news->stories as $n )
 						<div class='news-story'>
 							<a href="{{ $n->link }}" class='NewsLink' target='_news'>{{ $n->title }}</a>
@@ -123,7 +124,12 @@
 						<div class='news-update'>
 						Updated {{ date('Y-m-d H:i:s', $news->update_time) }}
 						</div>
-					</div>
+                        @else
+                        <div>
+                            No News Right Now
+                        </div>
+                        @endif
+    					</div>
 
 					</div>
 				</div>
