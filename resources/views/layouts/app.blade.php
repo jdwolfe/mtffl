@@ -113,7 +113,7 @@
 					<div class="col-md-3">
 						<h5>FootballGuys News</h5>
 						<div>
-						@if( count( $news->stories ) > 0 )
+						@if( isset( $news->stories ) )
 						@foreach( $news->stories as $n )
 						<div class='news-story'>
 							<a href="{{ $n->link }}" class='NewsLink' target='_news'>{{ $n->title }}</a>
@@ -143,3 +143,5 @@
     <script type="text/javascript" src="{{ asset('js/mtffl.js') }}"></script>
 </body>
 </html>
+
+
