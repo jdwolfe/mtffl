@@ -10,3 +10,4 @@ Homestead.yaml
 /public/smackroom
 .ftpquota
 *.lock
+public/.htaccess
