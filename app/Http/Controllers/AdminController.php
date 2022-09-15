@@ -262,7 +262,6 @@ class AdminController extends Controller {
 					->where('home_team_id', $home_team_id)
 					->where('away_team_id', $away_team_id)
 					->first();
-
 				if( NULL == $match_check ) {
 					$insert = array(
 						'league' => 'mtffl',
@@ -394,7 +393,7 @@ class AdminController extends Controller {
 		}
 
 		$Mtffl = new Mtffl();
-		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=standings&L=" . $this->mfl_number . "&cb=" . time();
+		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=leagueStandings&L=" . $this->mfl_number . "&cb=" . time();
 		$xml = $Mtffl->GetXML( $strURL );
 		if ( $xml !== FALSE ) {
 			foreach ( $xml as $f ) {
@@ -403,16 +402,21 @@ class AdminController extends Controller {
 					'season' => $this->currentSeason,
 					'team_id' => $team_id
 				);
+				$divwlt = str_replace( '&#8209;', 'x', $f['divwlt'] );
+				$divwlt = explode( 'x', $divwlt );
 				$update = array(
-					'wins' => $f->h2hw,
-					'losses' => $f->h2hl,
-					'ties' => $f->h2ht,
-					'division_wins' => $f->divw,
-					'division_losses' => $f->divl,
-					'division_ties' => $f->divt,
-					'points_for' => $f->pf,
-					'power_rank' => $f->power_rank,
-					'all_play_wins' => $f->all_play_w
+					'wins' => $f['h2hw'],
+					'losses' => $f['h2hl'],
+					'ties' => $f['h2ht'],
+					'division_wins' => $divwlt[0],
+					'division_losses' => $divwlt[1],
+					'division_ties' => $divwlt[2],
+					#'division_wins' => $f->divw,
+					#'division_losses' => $f->divl,
+					#'division_ties' => $f->divt,
+					'points_for' => $f['pf']
+					#'power_rank' => $f->power_rank,
+					#'all_play_wins' => $f->all_play_w
 				);
 				DB::table('team_season_results')->where( $where )->update( $update );
 			}
