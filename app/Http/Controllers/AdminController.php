@@ -394,6 +394,7 @@ class AdminController extends Controller {
 
 		$Mtffl = new Mtffl();
 		$strURL = "http://" . $this->mfl_server . ".myfantasyleague.com/" . $this->currentSeason . "/export/export?TYPE=leagueStandings&L=" . $this->mfl_number . "&cb=" . time();
+
 		$xml = $Mtffl->GetXML( $strURL );
 		if ( $xml !== FALSE ) {
 			foreach ( $xml as $f ) {
@@ -403,6 +404,7 @@ class AdminController extends Controller {
 					'team_id' => $team_id
 				);
 				$divwlt = str_replace( '&#8209;', 'x', $f['divwlt'] );
+				$divwlt = str_replace( '-', 'x', $divwlt );
 				$divwlt = explode( 'x', $divwlt );
 				$update = array(
 					'wins' => $f['h2hw'],
