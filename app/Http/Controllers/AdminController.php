@@ -402,8 +402,24 @@ class AdminController extends Controller {
 					'season' => $this->currentSeason,
 					'team_id' => $team_id
 				);
-				$divwlt = str_replace( '&#8209;', 'x', $f['divwlt'] );
-				$divwlt = explode( 'x', $divwlt );
+                # division win-loss-tie
+                $divwlt = array( 0, 0, 0 );
+				$divwltstr = str_replace( '&#8209;', 'x', $f['divwlt'] );
+                if( stristr( $divwltstr, 'x' ) ) {
+				    $divwlt = explode( 'x', $divwltstr );
+                } elseif ( stristr( $divwltstr, '-' ) ) {
+				    $divwlt = explode( '-', $divwltstr );
+                }
+
+                # all play win-loss-tie
+                $apwlt = array( 0, 0, 0 );
+                $apwltstr = str_replace( '&#8209;', 'x', $f['all_play_wlt'] );
+                if( stristr( $apwltstr, 'x' ) ) {
+				    $apwlt = explode( 'x', $apwltstr );
+                } elseif ( stristr( $divwltstr, '-' ) ) {
+				    $apwlt = explode( '-', $apwltstr );
+                }
+
 				$update = array(
 					'wins' => $f['h2hw'],
 					'losses' => $f['h2hl'],
@@ -414,9 +430,11 @@ class AdminController extends Controller {
 					#'division_wins' => $f->divw,
 					#'division_losses' => $f->divl,
 					#'division_ties' => $f->divt,
-					'points_for' => $f['pf']
+					'points_for' => $f['pf'],
 					#'power_rank' => $f->power_rank,
 					#'all_play_wins' => $f->all_play_w
+					'power_rank' => $f['pwr'],
+					'all_play_wins' => $apwlt[0]
 				);
 				DB::table('team_season_results')->where( $where )->update( $update );
 			}
